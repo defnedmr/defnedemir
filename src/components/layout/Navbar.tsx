@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { portfolioData } from '../../data/portfolioData';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const Navbar: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
+  const { language, setLanguage, data, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Experience', path: '/experience' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Contact', path: '/contact' },
+    { name: t.navHome, path: '/' },
+    { name: t.navExperience, path: '/experience' },
+    { name: t.navProjects, path: '/projects' },
+    { name: t.navContact, path: '/contact' },
   ];
 
   return (
@@ -25,11 +26,11 @@ export const Navbar: React.FC = () => {
           to="/"
           className="text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-opacity hover:opacity-85 font-heading"
         >
-          {portfolioData.personal.name}
+          {data.personal.name}
         </NavLink>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-7">
           <nav className="flex items-center gap-7">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
@@ -49,26 +50,79 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Circular Theme Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle Theme"
-            className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-primary transition-all shadow-sm hover:scale-105 active:scale-95"
-            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          >
-            {isDark ? (
-              <Sun className="w-4 h-4 transition-transform duration-300" />
-            ) : (
-              <Moon className="w-4 h-4 transition-transform duration-300" />
-            )}
-          </button>
+          {/* Controls: Language Switcher + Theme Toggle */}
+          <div className="flex items-center gap-3 pl-2 border-l border-border/60">
+            {/* TR / ENG Pill Toggle */}
+            <div className="flex items-center p-0.5 rounded-full border border-border bg-card/80 text-xs font-semibold shadow-xs">
+              <button
+                type="button"
+                onClick={() => setLanguage('tr')}
+                className={`px-2.5 py-1 rounded-full transition-all duration-200 ${
+                  language === 'tr'
+                    ? 'bg-primary text-primary-foreground shadow-xs font-bold'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+                title="Türkçe'ye geç"
+              >
+                TR
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage('en')}
+                className={`px-2.5 py-1 rounded-full transition-all duration-200 ${
+                  language === 'en'
+                    ? 'bg-primary text-primary-foreground shadow-xs font-bold'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+                title="Switch to English"
+              >
+                ENG
+              </button>
+            </div>
+
+            {/* Circular Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              aria-label={t.themeToggle}
+              className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-primary transition-all shadow-xs hover:scale-105 active:scale-95"
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {isDark ? (
+                <Sun className="w-4 h-4 transition-transform duration-300" />
+              ) : (
+                <Moon className="w-4 h-4 transition-transform duration-300" />
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex md:hidden items-center gap-3">
+        {/* Mobile Menu Controls */}
+        <div className="flex md:hidden items-center gap-2.5">
+          {/* Compact Mobile Language Switcher */}
+          <div className="flex items-center p-0.5 rounded-full border border-border bg-card text-[11px] font-semibold">
+            <button
+              type="button"
+              onClick={() => setLanguage('tr')}
+              className={`px-2 py-0.5 rounded-full transition-all ${
+                language === 'tr' ? 'bg-primary text-primary-foreground font-bold' : 'text-muted-foreground'
+              }`}
+            >
+              TR
+            </button>
+            <button
+              type="button"
+              onClick={() => setLanguage('en')}
+              className={`px-2 py-0.5 rounded-full transition-all ${
+                language === 'en' ? 'bg-primary text-primary-foreground font-bold' : 'text-muted-foreground'
+              }`}
+            >
+              ENG
+            </button>
+          </div>
+
           <button
             onClick={toggleTheme}
-            aria-label="Toggle Theme"
+            aria-label={t.themeToggle}
             className="w-9 h-9 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-primary"
           >
             {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}

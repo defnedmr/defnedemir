@@ -2,38 +2,39 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MapPin, Send, CheckCircle2 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../components/common/Icons';
-import { portfolioData } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Contact: React.FC = () => {
+  const { data, t, language } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSent, setIsSent] = useState(false);
 
   const contactItems = [
     {
       id: 'email',
-      label: 'EMAIL',
-      value: portfolioData.personal.email,
-      href: `mailto:${portfolioData.personal.email}`,
+      label: language === 'tr' ? 'E-POSTA' : 'EMAIL',
+      value: data.personal.email,
+      href: `mailto:${data.personal.email}`,
       icon: Mail,
     },
     {
       id: 'github',
       label: 'GITHUB',
-      value: portfolioData.personal.github,
-      href: portfolioData.personal.githubUrl,
+      value: data.personal.github,
+      href: data.personal.githubUrl,
       icon: GithubIcon,
     },
     {
       id: 'linkedin',
       label: 'LINKEDIN',
-      value: portfolioData.personal.linkedin,
-      href: portfolioData.personal.linkedinUrl,
+      value: data.personal.linkedin,
+      href: data.personal.linkedinUrl,
       icon: LinkedinIcon,
     },
     {
       id: 'location',
-      label: 'LOCATION',
-      value: portfolioData.personal.location,
+      label: language === 'tr' ? 'KONUM' : 'LOCATION',
+      value: data.personal.location,
       href: undefined,
       icon: MapPin,
     },
@@ -52,10 +53,10 @@ export const Contact: React.FC = () => {
         {/* Centered Title & Subtitle */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-16">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-heading">
-            Contact
+            {t.contactTitle}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground font-sans">
-            Have a question or opportunity? Reach out.
+            {t.contactSubtitle}
           </p>
         </div>
 
@@ -105,17 +106,17 @@ export const Contact: React.FC = () => {
         {/* Clean Message Box */}
         <div className="rounded-3xl p-7 sm:p-10 bg-white dark:bg-[#111118] border border-border shadow-sm relative z-10">
           <h3 className="text-xl font-bold text-foreground mb-2 font-heading">
-            Send a quick note
+            {t.sendNoteTitle}
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground mb-6 font-sans">
-            Leave your message directly and I will get back to you shortly.
+            {t.sendNoteSubtitle}
           </p>
 
           {isSent ? (
             <div className="p-6 rounded-2xl bg-[#f5f0fa] dark:bg-[#1d1927] text-primary flex items-center gap-3">
               <CheckCircle2 className="w-6 h-6 shrink-0" />
               <div className="text-sm font-medium">
-                Message sent successfully! Thank you for reaching out.
+                {t.messageSuccess}
               </div>
             </div>
           ) : (
@@ -124,7 +125,7 @@ export const Contact: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="Your Name"
+                  placeholder={t.namePlaceholder}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl border border-border bg-[#faf8fd] dark:bg-[#171420] text-foreground placeholder:text-muted-foreground/60 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
@@ -132,7 +133,7 @@ export const Contact: React.FC = () => {
                 <input
                   type="email"
                   required
-                  placeholder="Your Email"
+                  placeholder={t.emailPlaceholder}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl border border-border bg-[#faf8fd] dark:bg-[#171420] text-foreground placeholder:text-muted-foreground/60 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
@@ -141,7 +142,7 @@ export const Contact: React.FC = () => {
               <textarea
                 rows={4}
                 required
-                placeholder="Your Message..."
+                placeholder={t.messagePlaceholder}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl border border-border bg-[#faf8fd] dark:bg-[#171420] text-foreground placeholder:text-muted-foreground/60 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
@@ -151,7 +152,7 @@ export const Contact: React.FC = () => {
                 className="px-6 py-3 rounded-xl text-sm font-semibold text-primary-foreground bg-primary hover:opacity-90 transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-[0.99]"
               >
                 <Send className="w-4 h-4" />
-                <span>Send Message</span>
+                <span>{t.sendMessageBtn}</span>
               </button>
             </form>
           )}

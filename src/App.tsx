@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { ScrollToTop } from './components/layout/ScrollToTop';
@@ -39,22 +40,24 @@ const AnimatedRoutes: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="min-h-screen flex flex-col relative bg-background text-foreground transition-colors duration-300">
-          {/* 3D Dynamic Particle Circuit Background to fill empty spaces */}
-          <BackgroundCanvas3D />
+      <LanguageProvider>
+        <Router>
+          <ScrollToTop />
+          <div className="min-h-screen flex flex-col relative bg-background text-foreground transition-colors duration-300">
+            {/* 3D Dynamic Particle Circuit Background to fill empty spaces */}
+            <BackgroundCanvas3D />
 
-          {/* Persistent Navbar */}
-          <Navbar />
+            {/* Persistent Navbar */}
+            <Navbar />
 
-          {/* Animated Page Transitions */}
-          <AnimatedRoutes />
+            {/* Animated Page Transitions */}
+            <AnimatedRoutes />
 
-          {/* Global Footer */}
-          <Footer />
-        </div>
-      </Router>
+            {/* Global Footer */}
+            <Footer />
+          </div>
+        </Router>
+      </LanguageProvider>
     </ThemeProvider>
   );
 };
