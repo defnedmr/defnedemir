@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius: 0.75rem;
+
+  /* Light mode: white background, dark purple foreground/primary, pink accent */
+  --background: #ffffff;
+  --foreground: #1e132b;
+  --card: #ffffff;
+  --card-foreground: #1e132b;
+  --popover: #ffffff;
+  --popover-foreground: #1e132b;
+  --primary: #451b69;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f0fa;
+  --secondary-foreground: #451b69;
+  --muted: #f2edf7;
+  --muted-foreground: #6b5a7b;
+  --accent: #fce7ec;
+  --accent-foreground: #451b69;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #e6ddf0;
+  --input: #e6ddf0;
+  --ring: #7c3aed;
+
+  --pink: #f43f5e;
+  --purple: #451b69;
+}
+
+.dark {
+  /* Dark mode: black background, pink foreground/primary, purple accent */
+  --background: #08080c;
+  --foreground: #fcf1f3;
+  --card: #111118;
+  --card-foreground: #fcf1f3;
+  --popover: #111118;
+  --popover-foreground: #fcf1f3;
+  --primary: #f43f5e;
+  --primary-foreground: #08080c;
+  --secondary: #1d1927;
+  --secondary-foreground: #fcf1f3;
+  --muted: #171420;
+  --muted-foreground: #a3909e;
+  --accent: #451b69;
+  --accent-foreground: #fcf1f3;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #262133;
+  --input: #262133;
+  --ring: #f43f5e;
+
+  --pink: #f43f5e;
+  --purple: #7c3aed;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+}
+
+/* Guaranteed 100% Solid Card & Box Styling (No 3D Background bleed-through) */
+.bg-card,
+.card-solid {
+  background-color: #ffffff !important;
+  position: relative;
+  z-index: 10;
+}
+
+.dark .bg-card,
+.dark .card-solid {
+  background-color: #111118 !important;
+  position: relative;
+  z-index: 10;
+}
+
+.bg-surface-solid {
+  background-color: #f5f0fa !important;
+}
+
+.dark .bg-surface-solid {
+  background-color: #1a1725 !important;
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(69, 27, 105, 0.2);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(244, 63, 94, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(69, 27, 105, 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 63, 94, 0.5);
+}
