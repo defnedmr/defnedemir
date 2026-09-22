@@ -215,7 +215,7 @@ export const portfolioDataEn: PortfolioData = {
     institution: "Akdeniz University",
     degree: "B.S. in Computer Engineering",
     period: "2023 – 2027 (Expected)",
-    coursework: ["Data Structures & Algorithms", "Operating Systems", "Computer Architecture", "Database Systems", "Software Engineering", "Computer Networks & Security", "Large Language Models"]
+    coursework: ["3.6 GPA","Data Structures & Algorithms", "Operating Systems", "Computer Architecture", "Database Systems", "Software Engineering", "Computer Networks & Security", "Large Language Models"]
   }
 };
 
@@ -373,7 +373,7 @@ export const portfolioDataTr: PortfolioData = {
     institution: "Akdeniz Üniversitesi",
     degree: "Bilgisayar Mühendisliği Lisans",
     period: "2023 – 2027 (Beklenen)",
-    coursework: ["Veri Yapıları & Algoritmalar", "İşletim Sistemleri", "Bilgisayar Mimarisi", "Veri Tabanı Sistemleri", "Yazılım Mühendisliği", "Ağlar & Bilgi Güvenliği", "Büyük Dil Modelleri (LLMs)"]
+    coursework: ["3.6 AGNO","Veri Yapıları & Algoritmalar", "İşletim Sistemleri", "Bilgisayar Mimarisi", "Veri Tabanı Sistemleri", "Yazılım Mühendisliği", "Ağlar & Bilgi Güvenliği", "Büyük Dil Modelleri (LLMs)"]
   }
 };
 
