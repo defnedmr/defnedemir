@@ -18,20 +18,6 @@ export const Footer: React.FC = () => {
           <span>{data.personal.location}</span>
         </div>
 
-        <div className="flex items-center gap-6 text-sm font-medium">
-          <Link to="/" className="hover:text-primary transition-colors">
-            {t.navHome}
-          </Link>
-          <Link to="/experience" className="hover:text-primary transition-colors">
-            {t.navExperience}
-          </Link>
-          <Link to="/projects" className="hover:text-primary transition-colors">
-            {t.navProjects}
-          </Link>
-          <Link to="/contact" className="hover:text-primary transition-colors">
-            {t.navContact}
-          </Link>
-        </div>
       </div>
     </footer>
   );

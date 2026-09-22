@@ -21,12 +21,11 @@ export const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 w-full bg-background/85 backdrop-blur-md border-b border-border/40 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
         
-        {/* Brand Name */}
+        {/* Brand Name with Logoified SVG Drawing */}
         <NavLink
           to="/"
-          className="text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-opacity hover:opacity-85 font-heading"
-        >
-          {data.personal.name}
+          className="flex items-center gap-2.5 text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-all duration-200 hover:opacity-90 font-heading group"
+        ><span>{data.personal.name}</span>
         </NavLink>
 
         {/* Desktop Navigation */}

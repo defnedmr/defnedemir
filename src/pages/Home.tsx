@@ -29,41 +29,6 @@ export const Home: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>{data.personal.status}</span>
             </motion.div>
-
-            {/* Prominent Homepage TR / ENG Selector */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.05 }}
-              className="inline-flex items-center p-1 rounded-full border border-border bg-white dark:bg-[#111118] text-xs font-semibold shadow-xs"
-            >
-              <button
-                type="button"
-                onClick={() => setLanguage('tr')}
-                className={`px-3 py-1 rounded-full transition-all duration-200 flex items-center gap-1 ${
-                  language === 'tr'
-                    ? 'bg-primary text-primary-foreground font-bold shadow-xs'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-                title="Türkçe dil seçeneği"
-              >
-                <span>TR</span>
-                <span className="text-[10px] opacity-80">(Türkçe)</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setLanguage('en')}
-                className={`px-3 py-1 rounded-full transition-all duration-200 flex items-center gap-1 ${
-                  language === 'en'
-                    ? 'bg-primary text-primary-foreground font-bold shadow-xs'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-                title="English language option"
-              >
-                <span>ENG</span>
-                <span className="text-[10px] opacity-80">(English)</span>
-              </button>
-            </motion.div>
           </div>
 
           {/* Main Headline */}
