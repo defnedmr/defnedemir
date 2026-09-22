@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <!-- Brand Pink to Purple Gradient -->
+    <linearGradient id="ddBrandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="55%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <!-- Sleek High-Contrast Background -->
+    <linearGradient id="ddBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#171424" />
+      <stop offset="100%" stop-color="#0b0a12" />
+    </linearGradient>
+
+    <!-- Subtle Accent Border -->
+    <linearGradient id="ddBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.3" />
+    </linearGradient>
+  </defs>
+
+  <!-- Modern Rounded Icon Tile -->
+  <rect
+    x="1.5"
+    y="1.5"
+    width="61"
+    height="61"
+    rx="16"
+    fill="url(#ddBgGrad)"
+    stroke="url(#ddBorderGrad)"
+    stroke-width="1.5"
+  />
+
+  <!-- Space Grotesk "DD" Vector Monogram -->
+  <!-- First 'D' (fill-rule evenodd for cutout counter) -->
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="url(#ddBrandGrad)"
+    d="M 12.25 17 H 21.25 C 26.22 17 30.25 21.03 30.25 26 V 38 C 30.25 42.97 26.22 47 21.25 47 H 12.25 V 17 Z M 17.45 21.8 V 42.2 H 20.85 C 23.17 42.2 25.05 40.32 25.05 38 V 26 C 25.05 23.68 23.17 21.8 20.85 21.8 H 17.45 Z"
+  />
+
+  <!-- Second 'D' -->
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="url(#ddBrandGrad)"
+    d="M 33.75 17 H 42.75 C 47.72 17 51.75 21.03 51.75 26 V 38 C 51.75 42.97 47.72 47 42.75 47 H 33.75 V 17 Z M 38.95 21.8 V 42.2 H 42.35 C 44.67 42.2 46.55 40.32 46.55 38 V 26 C 46.55 23.68 44.67 21.8 42.35 21.8 H 38.95 Z"
+  />
+</svg>
