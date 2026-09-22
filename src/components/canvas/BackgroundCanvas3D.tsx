@@ -2,6 +2,20 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useTheme } from '../../context/ThemeContext';
 
+interface ShapeConfig {
+  geo: THREE.BufferGeometry;
+  xRatio: number; // Factor (-1 to 1) relative to visible screen half-width
+  y: number;
+  z: number;
+  colorDark: number;
+  colorLight: number;
+  opacityDark: number;
+  opacityLight: number;
+  rotSpeed: { x: number; y: number; z: number };
+  floatSpeed: number;
+  floatAmp: number;
+}
+
 export const BackgroundCanvas3D: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isDark } = useTheme();
@@ -28,87 +42,186 @@ export const BackgroundCanvas3D: React.FC = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     container.appendChild(renderer.domElement);
 
-    // Floating Wireframe Polyhedra / Crystals on the outer flanks
     const shapesGroup = new THREE.Group();
     scene.add(shapesGroup);
 
-    interface PolyObject {
-      mesh: THREE.LineSegments;
-      rotationSpeed: { x: number; y: number; z: number };
-      floatSpeed: number;
-      initialY: number;
-      initialZ: number;
-      xRatio: number; // Factor (-1 to 1) relative to visible screen half-width
-    }
+    const geometriesToDispose: THREE.BufferGeometry[] = [];
+    const materialsToDispose: THREE.Material[] = [];
 
-    const polyObjects: PolyObject[] = [];
-
-    // Distinct soft wireframe geometries for left & right flanks
-    const geometries = [
-      new THREE.IcosahedronGeometry(4.2, 0),
-      new THREE.OctahedronGeometry(3.6, 0),
-      new THREE.TetrahedronGeometry(4.0, 0),
-      new THREE.IcosahedronGeometry(3.4, 1),
-      new THREE.DodecahedronGeometry(3.8, 0),
-      new THREE.OctahedronGeometry(3.2, 1),
-    ];
-
-    // Configured strictly on the far left and far right sides
-    const configs = [
-      // LEFT FLANK
-      { xRatio: -0.88, y: 7.5, z: -4 },   // Upper Left
-      { xRatio: -0.92, y: 0.5, z: -6 },   // Mid Left
-      { xRatio: -0.87, y: -7.0, z: -5 },  // Lower Left
-      // RIGHT FLANK
-      { xRatio: 0.88, y: 7.0, z: -5 },    // Upper Right
-      { xRatio: 0.92, y: -0.5, z: -6 },   // Mid Right
-      { xRatio: 0.87, y: -7.5, z: -4 },   // Lower Right
-    ];
-
-    // Wireframe colors based on theme
-    const wireColor = isDark ? 0xf43f5e : 0xf472b6;
-    const wireOpacity = isDark ? 0.32 : 0.52;
-
-    const updateObjectPositions = () => {
-      const vFov = (camera.fov * Math.PI) / 180;
-      polyObjects.forEach(item => {
-        const dist = camera.position.z - item.initialZ;
-        const halfWidth = dist * Math.tan(vFov / 2) * camera.aspect;
-        item.mesh.position.x = item.xRatio * halfWidth;
-      });
+    const createGeo = (fn: () => THREE.BufferGeometry) => {
+      const g = fn();
+      geometriesToDispose.push(g);
+      return g;
     };
 
-    geometries.forEach((geo, i) => {
-      const wireframeGeo = new THREE.WireframeGeometry(geo);
-      const wireMat = new THREE.LineBasicMaterial({
-        color: wireColor,
+    // Palette:
+    // Dark mode: Pink (#f43f5e) & Purple (#a855f7)
+    // Light mode: Purple (#7c3aed) & Rose/Pink (#f43f5e)
+    const PINK_DARK = 0xf43f5e;
+    const PURPLE_DARK = 0xa855f7;
+    const PURPLE_LIGHT = 0x7c3aed;
+    const PINK_LIGHT = 0xf43f5e;
+
+    const shapeConfigs: ShapeConfig[] = [
+      // Left Upper Flank
+      {
+        geo: createGeo(() => new THREE.IcosahedronGeometry(3.6, 0)),
+        xRatio: -0.78,
+        y: 6.5,
+        z: -4,
+        colorDark: PINK_DARK,
+        colorLight: PURPLE_LIGHT,
+        opacityDark: 0.28,
+        opacityLight: 0.22,
+        rotSpeed: { x: 0.002, y: 0.003, z: 0.001 },
+        floatSpeed: 0.7,
+        floatAmp: 0.5,
+      },
+      // Left Mid Flank
+      {
+        geo: createGeo(() => new THREE.OctahedronGeometry(3.0, 0)),
+        xRatio: -0.84,
+        y: 0.0,
+        z: -5,
+        colorDark: PURPLE_DARK,
+        colorLight: PINK_LIGHT,
+        opacityDark: 0.24,
+        opacityLight: 0.20,
+        rotSpeed: { x: -0.002, y: 0.0025, z: -0.0015 },
+        floatSpeed: 0.9,
+        floatAmp: 0.45,
+      },
+      // Left Lower Flank
+      {
+        geo: createGeo(() => new THREE.DodecahedronGeometry(3.2, 0)),
+        xRatio: -0.76,
+        y: -6.8,
+        z: -4,
+        colorDark: PINK_DARK,
+        colorLight: PURPLE_LIGHT,
+        opacityDark: 0.26,
+        opacityLight: 0.20,
+        rotSpeed: { x: 0.0015, y: -0.003, z: 0.002 },
+        floatSpeed: 0.65,
+        floatAmp: 0.4,
+      },
+
+      // Right Upper Flank
+      {
+        geo: createGeo(() => new THREE.DodecahedronGeometry(3.4, 0)),
+        xRatio: 0.78,
+        y: 6.8,
+        z: -4,
+        colorDark: PURPLE_DARK,
+        colorLight: PINK_LIGHT,
+        opacityDark: 0.26,
+        opacityLight: 0.20,
+        rotSpeed: { x: -0.002, y: -0.0025, z: 0.0015 },
+        floatSpeed: 0.8,
+        floatAmp: 0.45,
+      },
+      // Right Mid Flank
+      {
+        geo: createGeo(() => new THREE.IcosahedronGeometry(3.2, 0)),
+        xRatio: 0.85,
+        y: -0.5,
+        z: -5,
+        colorDark: PINK_DARK,
+        colorLight: PURPLE_LIGHT,
+        opacityDark: 0.28,
+        opacityLight: 0.22,
+        rotSpeed: { x: 0.0025, y: 0.002, z: -0.002 },
+        floatSpeed: 0.75,
+        floatAmp: 0.5,
+      },
+      // Right Lower Flank
+      {
+        geo: createGeo(() => new THREE.OctahedronGeometry(2.8, 0)),
+        xRatio: 0.76,
+        y: -7.0,
+        z: -4,
+        colorDark: PURPLE_DARK,
+        colorLight: PINK_LIGHT,
+        opacityDark: 0.24,
+        opacityLight: 0.18,
+        rotSpeed: { x: 0.002, y: -0.002, z: 0.001 },
+        floatSpeed: 0.85,
+        floatAmp: 0.4,
+      },
+
+      // Center-Deep Subtle Ambient Shapes (pass gently in the deep background behind content)
+      {
+        geo: createGeo(() => new THREE.TetrahedronGeometry(2.4, 0)),
+        xRatio: -0.22,
+        y: 3.5,
+        z: -10,
+        colorDark: PINK_DARK,
+        colorLight: PURPLE_LIGHT,
+        opacityDark: 0.14,
+        opacityLight: 0.10,
+        rotSpeed: { x: 0.001, y: 0.0015, z: 0.001 },
+        floatSpeed: 0.5,
+        floatAmp: 0.35,
+      },
+      {
+        geo: createGeo(() => new THREE.IcosahedronGeometry(2.6, 0)),
+        xRatio: 0.25,
+        y: -4.0,
+        z: -11,
+        colorDark: PURPLE_DARK,
+        colorLight: PINK_LIGHT,
+        opacityDark: 0.13,
+        opacityLight: 0.09,
+        rotSpeed: { x: -0.001, y: 0.001, z: -0.001 },
+        floatSpeed: 0.55,
+        floatAmp: 0.35,
+      },
+    ];
+
+    interface LiveMesh {
+      line: THREE.LineSegments;
+      conf: ShapeConfig;
+      initialY: number;
+    }
+
+    const liveMeshes: LiveMesh[] = [];
+
+    shapeConfigs.forEach((conf) => {
+      const wireGeo = new THREE.WireframeGeometry(conf.geo);
+      geometriesToDispose.push(wireGeo);
+
+      const color = isDark ? conf.colorDark : conf.colorLight;
+      const opacity = isDark ? conf.opacityDark : conf.opacityLight;
+
+      const mat = new THREE.LineBasicMaterial({
+        color,
         transparent: true,
-        opacity: wireOpacity,
+        opacity,
         linewidth: 1,
       });
+      materialsToDispose.push(mat);
 
-      const line = new THREE.LineSegments(wireframeGeo, wireMat);
-      const conf = configs[i % configs.length];
+      const line = new THREE.LineSegments(wireGeo, mat);
       line.position.set(0, conf.y, conf.z);
-
       shapesGroup.add(line);
 
-      polyObjects.push({
-        mesh: line,
-        rotationSpeed: {
-          x: (Math.random() - 0.5) * 0.005,
-          y: (Math.random() - 0.5) * 0.006,
-          z: (Math.random() - 0.5) * 0.004,
-        },
-        floatSpeed: 0.8 + Math.random() * 0.5,
+      liveMeshes.push({
+        line,
+        conf,
         initialY: conf.y,
-        initialZ: conf.z,
-        xRatio: conf.xRatio,
       });
     });
 
-    // Position objects based on current aspect ratio
-    updateObjectPositions();
+    const updatePositions = () => {
+      const vFov = (camera.fov * Math.PI) / 180;
+      liveMeshes.forEach((item) => {
+        const dist = camera.position.z - item.conf.z;
+        const halfWidth = dist * Math.tan(vFov / 2) * camera.aspect;
+        item.line.position.x = item.conf.xRatio * halfWidth;
+      });
+    };
+
+    updatePositions();
 
     // Mouse parallax tracking
     let mouseX = 0;
@@ -117,16 +230,16 @@ export const BackgroundCanvas3D: React.FC = () => {
     let targetY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      targetX = ((e.clientX - window.innerWidth / 2) / window.innerWidth) * 2;
-      targetY = -((e.clientY - window.innerHeight / 2) / window.innerHeight) * 2;
+      targetX = ((e.clientX - window.innerWidth / 2) / window.innerWidth) * 1.5;
+      targetY = -((e.clientY - window.innerHeight / 2) / window.innerHeight) * 1.5;
     };
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      updateObjectPositions();
+      updatePositions();
     };
     window.addEventListener('resize', handleResize);
 
@@ -136,21 +249,21 @@ export const BackgroundCanvas3D: React.FC = () => {
     const animate = () => {
       const time = (performance.now() - startTime) * 0.001;
 
-      // Gentle camera parallax
-      mouseX += (targetX - mouseX) * 0.04;
-      mouseY += (targetY - mouseY) * 0.04;
-      camera.position.x = mouseX * 1.2;
-      camera.position.y = mouseY * 1.2;
+      // Smooth gentle camera parallax
+      mouseX += (targetX - mouseX) * 0.03;
+      mouseY += (targetY - mouseY) * 0.03;
+      camera.position.x = mouseX;
+      camera.position.y = mouseY;
       camera.lookAt(0, 0, 0);
 
-      // Rotate and float each wireframe shape
-      polyObjects.forEach((item, index) => {
-        item.mesh.rotation.x += item.rotationSpeed.x;
-        item.mesh.rotation.y += item.rotationSpeed.y;
-        item.mesh.rotation.z += item.rotationSpeed.z;
+      // Rotate and float shapes gently
+      liveMeshes.forEach((item, index) => {
+        item.line.rotation.x += item.conf.rotSpeed.x;
+        item.line.rotation.y += item.conf.rotSpeed.y;
+        item.line.rotation.z += item.conf.rotSpeed.z;
 
-        item.mesh.position.y =
-          item.initialY + Math.sin(time * item.floatSpeed + index) * 0.45;
+        item.line.position.y =
+          item.initialY + Math.sin(time * item.conf.floatSpeed + index) * item.conf.floatAmp;
       });
 
       renderer.render(scene, camera);
@@ -166,7 +279,8 @@ export const BackgroundCanvas3D: React.FC = () => {
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
-      geometries.forEach(g => g.dispose());
+      geometriesToDispose.forEach((g) => g.dispose());
+      materialsToDispose.forEach((m) => m.dispose());
       renderer.dispose();
     };
   }, [isDark]);
@@ -174,7 +288,7 @@ export const BackgroundCanvas3D: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none -z-10 overflow-hidden"
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
     />
   );
 };

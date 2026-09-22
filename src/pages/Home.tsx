@@ -2,29 +2,34 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { portfolioData, Project } from '../data/portfolioData';
+import { Project } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 import { ProjectModal } from '../components/projects/ProjectModal';
 
 export const Home: React.FC = () => {
+  const { language, setLanguage, data, t } = useLanguage();
   const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   return (
     <div className="relative min-h-[calc(100vh-80px)]">
       
       {/* 1. HERO SECTION (Clean, Minimal, Centered) */}
-      <section className="pt-12 pb-16 md:pt-20 md:pb-24">
+      <section className="pt-10 pb-16 md:pt-16 md:pb-24">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
           
-          {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-[#f5f0fa] dark:bg-[#1d1927] text-primary"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>{portfolioData.personal.status}</span>
-          </motion.div>
+          {/* Top Controls: Status Badge + Homepage TR/ENG Switcher */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {/* Status Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-[#f5f0fa] dark:bg-[#1d1927] text-primary"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>{data.personal.status}</span>
+            </motion.div>
+          </div>
 
           {/* Main Headline */}
           <motion.h1
@@ -33,9 +38,9 @@ export const Home: React.FC = () => {
             transition={{ duration: 0.45, delay: 0.05 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-foreground font-heading"
           >
-            Hi, I'm{' '}
+            {t.greeting}{' '}
             <span className="text-primary">
-              {portfolioData.personal.name}
+              {data.personal.name}
             </span>
             .
           </motion.h1>
@@ -47,7 +52,7 @@ export const Home: React.FC = () => {
             transition={{ duration: 0.45, delay: 0.1 }}
             className="text-lg sm:text-xl font-medium text-primary font-sans"
           >
-            {portfolioData.personal.title} • {portfolioData.personal.location}
+            {data.personal.title} • {data.personal.location}
           </motion.p>
 
           {/* Short Bio */}
@@ -57,7 +62,7 @@ export const Home: React.FC = () => {
             transition={{ duration: 0.45, delay: 0.15 }}
             className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto font-sans"
           >
-            {portfolioData.personal.bio}
+            {data.personal.bio}
           </motion.p>
 
           {/* Action Buttons */}
@@ -71,7 +76,7 @@ export const Home: React.FC = () => {
               to="/projects"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm text-primary-foreground bg-primary hover:opacity-90 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] font-sans"
             >
-              <span>View Projects</span>
+              <span>{t.viewProjects}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
 
@@ -79,7 +84,7 @@ export const Home: React.FC = () => {
               to="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm border border-border bg-white dark:bg-[#111118] text-foreground hover:border-primary transition-all hover:scale-[1.02] active:scale-[0.98] font-sans relative z-10"
             >
-              <span>Get in Touch</span>
+              <span>{t.getInTouch}</span>
             </Link>
           </motion.div>
 
@@ -90,7 +95,7 @@ export const Home: React.FC = () => {
       <section className="py-12 border-t border-border/70 bg-white/40 dark:bg-[#111118]/40 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {portfolioData.skills.map((cat, idx) => (
+            {data.skills.map((cat, idx) => (
               <div
                 key={idx}
                 className="p-6 rounded-3xl bg-white dark:bg-[#111118] border border-border shadow-sm space-y-3 relative z-10"
@@ -120,23 +125,23 @@ export const Home: React.FC = () => {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-heading">
-                Featured Projects
+                {t.featuredProjects}
               </h2>
               <p className="text-sm text-muted-foreground mt-1 font-sans">
-                A selection of recent projects and experiments.
+                {t.featuredSubtitle}
               </p>
             </div>
             <Link
               to="/projects"
               className="text-sm font-semibold text-primary hover:underline flex items-center gap-1 font-sans"
             >
-              <span>See all</span>
+              <span>{t.seeAll}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {portfolioData.projects.slice(0, 2).map((project) => (
+            {data.projects.slice(0, 2).map((project) => (
               <div
                 key={project.id}
                 onClick={() => setActiveProject(project)}
@@ -172,7 +177,7 @@ export const Home: React.FC = () => {
                     }}
                     className="inline-flex items-center text-sm font-semibold text-primary hover:opacity-85 transition-opacity group-hover:translate-x-1 duration-200 font-sans"
                   >
-                    <span>View project →</span>
+                    <span>{project.linkText || t.viewProjectBtn}</span>
                   </button>
                 </div>
               </div>

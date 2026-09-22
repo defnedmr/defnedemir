@@ -8,12 +8,16 @@ import {
   ChevronLeft,
   ChevronRight,
   Globe,
-  Terminal,
-  BarChart3,
-  CheckSquare
+  Bot,
+  BookOpen,
+  LifeBuoy,
+  Sparkles,
+  Layers,
+  AlertTriangle
 } from 'lucide-react';
 import { GithubIcon } from '../common/Icons';
 import { Project } from '../../data/portfolioData';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -21,6 +25,7 @@ interface ProjectModalProps {
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
+  const { t, language } = useLanguage();
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   // Close on ESC key
@@ -51,116 +56,152 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
   if (!project) return null;
 
-  const currentPhoto = project.photos[selectedPhotoIndex] || { url: '', caption: 'Project Preview' };
+  const currentPhoto = project.photos[selectedPhotoIndex] || { url: '', caption: project.title };
   const hasMultiplePhotos = project.photos.length > 1;
 
   const renderMockup = (projectId: string) => {
-    if (projectId === 'task-tracker') {
-      return (
-        <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-[#fcfaff] to-[#f4eefc] dark:from-[#13121d] dark:to-[#1a1727] text-foreground select-none">
-          <div className="flex items-center justify-between pb-2 border-b border-border/60">
-            <div className="flex items-center gap-1.5">
-              <CheckSquare className="w-3.5 h-3.5 text-primary" />
-              <span className="text-xs font-semibold">Workspace Board</span>
-            </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium">
-              Live Sync
-            </span>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2 my-auto">
-            <div className="p-2 rounded-lg bg-white dark:bg-[#1a1826] border border-border/80 shadow-sm space-y-1">
-              <div className="text-[9px] font-semibold text-muted-foreground uppercase">To Do</div>
-              <div className="p-1 rounded bg-secondary text-[9px] font-medium border border-border/40 truncate">
-                DB Indexes
-              </div>
-            </div>
-
-            <div className="p-2 rounded-lg bg-white dark:bg-[#1a1826] border border-border/80 shadow-sm space-y-1">
-              <div className="text-[9px] font-semibold text-primary uppercase">Active</div>
-              <div className="p-1 rounded bg-primary/10 text-primary text-[9px] font-medium border border-primary/20 truncate">
-                Kanban UI
-              </div>
-            </div>
-
-            <div className="p-2 rounded-lg bg-white dark:bg-[#1a1826] border border-border/80 shadow-sm space-y-1">
-              <div className="text-[9px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase">Done</div>
-              <div className="p-1 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-medium border border-emerald-500/20 line-through truncate">
-                JWT Auth
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-1.5 border-t border-border/60">
-            <span className="truncate max-w-[200px]">{currentPhoto.caption}</span>
-            <span className="font-mono">{selectedPhotoIndex + 1}/{project.photos.length}</span>
-          </div>
-        </div>
-      );
-    }
-
-    if (projectId === 'ml-classification') {
-      return (
-        <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-[#fcfaff] to-[#f4eefc] dark:from-[#13121d] dark:to-[#1a1727] text-foreground select-none">
-          <div className="flex items-center justify-between pb-2 border-b border-border/60">
-            <div className="flex items-center gap-1.5">
-              <BarChart3 className="w-3.5 h-3.5 text-primary" />
-              <span className="text-xs font-semibold">Evaluation Results</span>
-            </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
-              Acc: 96.4%
-            </span>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2 my-auto">
-            <div className="p-2 rounded-lg bg-white dark:bg-[#1a1826] border border-border/80 flex flex-col items-center justify-center text-center shadow-sm">
-              <div className="text-[10px] font-bold text-primary truncate w-full">Random Forest</div>
-              <div className="text-base font-extrabold text-foreground mt-0.5">0.96</div>
-              <div className="text-[8px] text-muted-foreground">F1 Score</div>
-            </div>
-
-            <div className="p-2 rounded-lg bg-white dark:bg-[#1a1826] border border-border/80 flex flex-col items-center justify-center text-center shadow-sm">
-              <div className="text-[10px] font-bold text-primary truncate w-full">Neural MLP</div>
-              <div className="text-base font-extrabold text-foreground mt-0.5">0.94</div>
-              <div className="text-[8px] text-muted-foreground">F1 Score</div>
-            </div>
-
-            <div className="p-2 rounded-lg bg-white dark:bg-[#1a1826] border border-border/80 flex flex-col items-center justify-center text-center shadow-sm">
-              <div className="text-[10px] font-bold text-primary truncate w-full">SVM (RBF)</div>
-              <div className="text-base font-extrabold text-foreground mt-0.5">0.92</div>
-              <div className="text-[8px] text-muted-foreground">F1 Score</div>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-1.5 border-t border-border/60">
-            <span className="truncate max-w-[200px]">{currentPhoto.caption}</span>
-            <span className="font-mono">{selectedPhotoIndex + 1}/{project.photos.length}</span>
-          </div>
-        </div>
-      );
-    }
-
-    if (projectId === 'riscv-sim' || projectId === 'mini-os') {
+    // 1. KNOCK: AI Interrogation Simulator
+    if (projectId === 'ai-chatbot') {
       return (
         <div className="w-full h-full p-4 flex flex-col justify-between bg-[#0e0d16] text-gray-200 select-none font-mono">
           <div className="flex items-center justify-between pb-2 border-b border-gray-800">
-            <div className="flex items-center gap-1.5 text-xs text-gray-400">
-              <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-              <span>debugger@riscv:~$</span>
+            <div className="flex items-center gap-1.5 text-xs text-rose-400">
+              <Bot className="w-3.5 h-3.5 text-rose-400" />
+              <span>suspect_ai://interrogate</span>
             </div>
-            <span className="text-[10px] text-emerald-400 font-semibold">● RUNNING</span>
+            <span className="text-[10px] text-rose-400 font-semibold px-2 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/20">
+              ● {language === 'tr' ? 'SORGU AKTİF' : 'LIVE AI SESSION'}
+            </span>
           </div>
 
-          <div className="space-y-1 text-xs text-gray-300 my-auto leading-relaxed">
-            <div className="text-emerald-400">&gt; load_binary --elf ./kernel.elf</div>
-            <div className="text-gray-400">[0x00] ADDI x1, x0, 42</div>
-            <div className="text-gray-400">[0x04] SW   x1, 0(x2)</div>
-            <div className="text-pink-400">[STATUS] PC = 0x00000008</div>
+          <div className="space-y-2 my-auto text-xs">
+            <div className="p-2 rounded-lg bg-gray-900/80 border border-gray-800 text-gray-400">
+              <span className="text-primary font-bold">{language === 'tr' ? 'DEDEKTİF:' : 'DETECTIVE:'}</span> "Where were you between 22:00 and midnight?"
+            </div>
+            <div className="p-2 rounded-lg bg-purple-950/40 border border-purple-900/40 text-purple-200">
+              <span className="text-rose-400 font-bold">{language === 'tr' ? 'ŞÜPHELİ (AI):' : 'SUSPECT (AI):'}</span> "I was in the library... reading alone."
+            </div>
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-amber-500/10 text-amber-300 text-[10px] border border-amber-500/20">
+              <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
+              <span>{language === 'tr' ? 'Çelişki Saptandı: Kütüphane 20:00\'de kapalıydı.' : 'Contradiction: Library closed at 20:00.'}</span>
+            </div>
           </div>
 
           <div className="flex items-center justify-between text-[10px] text-gray-500 pt-1.5 border-t border-gray-800">
             <span className="truncate max-w-[200px]">{currentPhoto.caption}</span>
-            <span>ELF32 • Cycle 1048</span>
+            <span className="text-primary font-bold">itch.io in-browser</span>
+          </div>
+        </div>
+      );
+    }
+
+    // 2. CLOVERNOTE: Note Sharing Platform
+    if (projectId === 'clovernote') {
+      return (
+        <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-[#fcfaff] to-[#f4eefc] dark:from-[#13121d] dark:to-[#1a1727] text-foreground select-none">
+          <div className="flex items-center justify-between pb-2 border-b border-border/60">
+            <div className="flex items-center gap-1.5">
+              <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="text-xs font-semibold font-heading">CloverNote Feed</span>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium">
+              .NET + Angular
+            </span>
+          </div>
+
+          <div className="space-y-2 my-auto">
+            <div className="p-2 rounded-xl bg-white dark:bg-[#1a1826] border border-border/80 shadow-xs flex items-center justify-between">
+              <div>
+                <div className="text-[11px] font-bold text-foreground truncate">Data Structures & Algo Notes.pdf</div>
+                <div className="text-[9px] text-muted-foreground">CS201 • Computer Engineering</div>
+              </div>
+              <span className="text-[10px] font-bold text-amber-500">★ 4.9</span>
+            </div>
+
+            <div className="p-2 rounded-xl bg-white dark:bg-[#1a1826] border border-border/80 shadow-xs flex items-center justify-between">
+              <div>
+                <div className="text-[11px] font-bold text-foreground truncate">Operating Systems Midterm Review</div>
+                <div className="text-[9px] text-muted-foreground">CS302 • Semester 5</div>
+              </div>
+              <span className="text-[10px] font-bold text-amber-500">★ 4.8</span>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-1.5 border-t border-border/60">
+            <span className="truncate max-w-[200px]">{currentPhoto.caption}</span>
+            <span className="font-mono">{selectedPhotoIndex + 1}/{project.photos.length}</span>
+          </div>
+        </div>
+      );
+    }
+
+    // 3. AYS (Afet Yönetim Sistemi Katkısı)
+    if (projectId === 'ays-frontend') {
+      return (
+        <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-[#fcfaff] to-[#f4eefc] dark:from-[#13121d] dark:to-[#1a1727] text-foreground select-none">
+          <div className="flex items-center justify-between pb-2 border-b border-border/60">
+            <div className="flex items-center gap-1.5">
+              <LifeBuoy className="w-3.5 h-3.5 text-primary" />
+              <span className="text-xs font-semibold font-heading">AYS Afet Yönetim Portalı</span>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
+              Open Source
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 my-auto">
+            <div className="p-2 rounded-xl bg-white dark:bg-[#1a1826] border border-border/80 text-center shadow-xs">
+              <div className="text-[14px] font-extrabold text-foreground">42</div>
+              <div className="text-[8px] text-muted-foreground uppercase font-medium">{language === 'tr' ? 'Lojistik Nokta' : 'Relief Points'}</div>
+            </div>
+            <div className="p-2 rounded-xl bg-white dark:bg-[#1a1826] border border-border/80 text-center shadow-xs">
+              <div className="text-[14px] font-extrabold text-emerald-600 dark:text-emerald-400">98.4%</div>
+              <div className="text-[8px] text-muted-foreground uppercase font-medium">{language === 'tr' ? 'Eşleşme Oranı' : 'Needs Matched'}</div>
+            </div>
+            <div className="p-2 rounded-xl bg-white dark:bg-[#1a1826] border border-border/80 text-center shadow-xs">
+              <div className="text-[14px] font-extrabold text-primary">TS / React</div>
+              <div className="text-[8px] text-muted-foreground uppercase font-medium">{language === 'tr' ? 'Kurumsal UI' : 'Institution UI'}</div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-1.5 border-t border-border/60">
+            <span className="truncate max-w-[200px]">{currentPhoto.caption}</span>
+            <span className="font-mono">{selectedPhotoIndex + 1}/{project.photos.length}</span>
+          </div>
+        </div>
+      );
+    }
+
+    // 4. PORTFOLIO WEBSITE
+    if (projectId === 'portfolio-site') {
+      return (
+        <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-[#fcfaff] to-[#f4eefc] dark:from-[#13121d] dark:to-[#1a1727] text-foreground select-none">
+          <div className="flex items-center justify-between pb-2 border-b border-border/60">
+            <div className="flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span className="text-xs font-semibold font-heading">Interactive 3D Canvas</span>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
+              Three.js + Vite
+            </span>
+          </div>
+
+          <div className="text-center my-auto py-2 space-y-1.5 max-w-xs mx-auto">
+            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
+              <Layers className="w-3 h-3" />
+              <span>Pink & Black / Purple & White Dual Theme</span>
+            </div>
+            <div className="text-sm font-bold text-foreground font-heading">
+              defnedemir.dev
+            </div>
+            <div className="text-[10px] text-muted-foreground">
+              {language === 'tr' ? 'Duyarlı tipografi & akıcı sayfa geçişleri' : 'Responsive typography & fluid page transitions'}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-1.5 border-t border-border/60">
+            <span className="truncate max-w-[200px]">{currentPhoto.caption}</span>
+            <span className="font-mono">{selectedPhotoIndex + 1}/{project.photos.length}</span>
           </div>
         </div>
       );
@@ -175,7 +216,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             <span className="text-xs font-semibold">{project.title} Interface</span>
           </div>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
-            Preview
+            {t.previewLabel}
           </span>
         </div>
 
@@ -290,7 +331,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
               <button
                 onClick={onClose}
-                aria-label="Close modal"
+                aria-label={t.closeBtn}
                 className="w-8 h-8 rounded-full flex items-center justify-center bg-secondary hover:bg-muted text-foreground border border-border shadow-sm hover:scale-110 transition-all shrink-0"
               >
                 <X className="w-4 h-4" />
@@ -326,7 +367,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             {/* Bottom Actions Row */}
             <div className="pt-3 border-t border-border flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                {project.githubUrl && (
+                {project.githubUrl && project.githubUrl !== 'private repo!' && (
                   <a
                     href={project.githubUrl}
                     target="_blank"
@@ -334,10 +375,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-primary-foreground bg-primary hover:opacity-90 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <GithubIcon className="w-3.5 h-3.5" />
-                    <span>GitHub</span>
+                    <span>{t.githubBtn}</span>
                   </a>
                 )}
-                {project.liveUrl && (
+                {project.liveUrl && project.liveUrl !== 'tba!!!' && (
                   <a
                     href={project.liveUrl}
                     target="_blank"
@@ -345,7 +386,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold border border-border bg-card text-foreground hover:border-primary transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Live Demo</span>
+                    <span>
+                      {project.id === 'ai-chatbot'
+                        ? (language === 'tr' ? 'Oyunu Oyna' : 'Play Game')
+                        : t.liveDemoBtn}
+                    </span>
                   </a>
                 )}
               </div>
@@ -354,7 +399,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 onClick={onClose}
                 className="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold border border-border bg-secondary text-foreground hover:bg-muted transition-colors"
               >
-                Close
+                {t.closeBtn}
               </button>
             </div>
 

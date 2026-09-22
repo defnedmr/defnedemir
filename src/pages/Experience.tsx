@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, GraduationCap } from 'lucide-react';
-import { portfolioData } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Experience: React.FC = () => {
+  const { data, t } = useLanguage();
+
   return (
     <div className="relative min-h-[calc(100vh-80px)] py-12 sm:py-16">
       <div className="max-w-4xl mx-auto px-6">
@@ -11,16 +13,16 @@ export const Experience: React.FC = () => {
         {/* Centered Page Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-16">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-heading">
-            Experience
+            {t.experienceTitle}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground font-sans">
-            Where I've worked and what I've learned along the way.
+            {t.experienceSubtitle}
           </p>
         </div>
 
         {/* Experience List */}
         <div className="space-y-6 mb-12">
-          {portfolioData.experiences.map((exp, idx) => (
+          {data.experiences.map((exp, idx) => (
             <motion.div
               key={exp.id}
               initial={{ opacity: 0, y: 15 }}
@@ -34,7 +36,18 @@ export const Experience: React.FC = () => {
                     {exp.role}
                   </h3>
                   <div className="text-base font-semibold text-primary pt-0.5">
-                    {exp.organization}
+                    {exp.url ? (
+                      <a
+                        href={exp.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        {exp.organization}
+                      </a>
+                    ) : (
+                      exp.organization
+                    )}
                   </div>
                 </div>
 
@@ -83,16 +96,16 @@ export const Experience: React.FC = () => {
             </div>
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-foreground font-heading">
-                {portfolioData.education.institution}
+                {data.education.institution}
               </h3>
               <p className="text-sm font-semibold text-primary">
-                {portfolioData.education.degree}
+                {data.education.degree}
               </p>
               <p className="text-xs font-mono text-muted-foreground">
-                {portfolioData.education.period}
+                {data.education.period}
               </p>
               <div className="flex flex-wrap gap-1.5 pt-2">
-                {portfolioData.education.coursework.map((course, cIdx) => (
+                {data.education.coursework.map((course, cIdx) => (
                   <span
                     key={cIdx}
                     className="text-xs px-2.5 py-0.5 rounded-md bg-[#f5f0fa] dark:bg-[#1d1927] text-muted-foreground"

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { portfolioData, Project } from '../data/portfolioData';
+import { Project } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 import { ProjectModal } from '../components/projects/ProjectModal';
 
 export const Projects: React.FC = () => {
+  const { data, t } = useLanguage();
   const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   return (
@@ -13,16 +15,16 @@ export const Projects: React.FC = () => {
         {/* Centered Page Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-16">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-heading">
-            Projects
+            {t.projectsTitle}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground font-sans">
-            A few things I've built while learning.
+            {t.projectsSubtitle}
           </p>
         </div>
 
         {/* 2-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {portfolioData.projects.map((project, idx) => (
+          {data.projects.map((project, idx) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 15 }}
@@ -66,7 +68,7 @@ export const Projects: React.FC = () => {
                   }}
                   className="inline-flex items-center text-sm font-semibold text-primary hover:opacity-85 transition-opacity group-hover:translate-x-1 duration-200 font-sans"
                 >
-                  <span>{project.linkText || 'View project →'}</span>
+                  <span>{project.linkText || t.viewProjectBtn}</span>
                 </button>
               </div>
 

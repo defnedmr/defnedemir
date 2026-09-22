@@ -61,6 +61,17 @@
     border-color: var(--border);
   }
 
+  /* High contrast, theme-aware text selection fix */
+  ::selection {
+    background-color: rgba(69, 27, 105, 0.22);
+    color: #1e132b;
+  }
+
+  .dark ::selection {
+    background-color: rgba(244, 63, 94, 0.4);
+    color: #ffffff;
+  }
+
   body {
     background-color: var(--background);
     color: var(--foreground);
