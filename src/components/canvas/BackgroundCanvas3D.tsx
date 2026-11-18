@@ -39,7 +39,7 @@ export const BackgroundCanvas3D: React.FC = () => {
       powerPreference: 'high-performance'
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     container.appendChild(renderer.domElement);
 
     const shapesGroup = new THREE.Group();
@@ -191,7 +191,7 @@ export const BackgroundCanvas3D: React.FC = () => {
       geometriesToDispose.push(wireGeo);
 
       const color = isDark ? conf.colorDark : conf.colorLight;
-      const opacity = isDark ? conf.opacityDark : conf.opacityLight;
+      const opacity = (isDark ? conf.opacityDark : conf.opacityLight) * 1.25;
 
       const mat = new THREE.LineBasicMaterial({
         color,

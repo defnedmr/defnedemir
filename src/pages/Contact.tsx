@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Send, CheckCircle2 } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../components/common/Icons';
 import { useLanguage } from '../context/LanguageContext';
 
 export const Contact: React.FC = () => {
   const { data, t, language } = useLanguage();
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [isSent, setIsSent] = useState(false);
 
   const contactItems = [
     {
@@ -40,12 +38,6 @@ export const Contact: React.FC = () => {
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSent(true);
-    setFormData({ name: '', email: '', message: '' });
-  };
-
   return (
     <div className="relative min-h-[calc(100vh-80px)] py-12 sm:py-16">
       <div className="max-w-4xl mx-auto px-6">
@@ -61,7 +53,7 @@ export const Contact: React.FC = () => {
         </div>
 
         {/* 2x2 Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {contactItems.map((item, idx) => {
             const Icon = item.icon;
             const CardContent = (
@@ -101,61 +93,6 @@ export const Contact: React.FC = () => {
               <div key={item.id}>{CardContent}</div>
             );
           })}
-        </div>
-
-        {/* Clean Message Box */}
-        <div className="rounded-3xl p-7 sm:p-10 bg-white dark:bg-[#111118] border border-border shadow-sm relative z-10">
-          <h3 className="text-xl font-bold text-foreground mb-2 font-heading">
-            {t.sendNoteTitle}
-          </h3>
-          <p className="text-xs sm:text-sm text-muted-foreground mb-6 font-sans">
-            {t.sendNoteSubtitle}
-          </p>
-
-          {isSent ? (
-            <div className="p-6 rounded-2xl bg-[#f5f0fa] dark:bg-[#1d1927] text-primary flex items-center gap-3">
-              <CheckCircle2 className="w-6 h-6 shrink-0" />
-              <div className="text-sm font-medium">
-                {t.messageSuccess}
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 font-sans">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  required
-                  placeholder={t.namePlaceholder}
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-[#faf8fd] dark:bg-[#171420] text-foreground placeholder:text-muted-foreground/60 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                />
-                <input
-                  type="email"
-                  required
-                  placeholder={t.emailPlaceholder}
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-[#faf8fd] dark:bg-[#171420] text-foreground placeholder:text-muted-foreground/60 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                />
-              </div>
-              <textarea
-                rows={4}
-                required
-                placeholder={t.messagePlaceholder}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-border bg-[#faf8fd] dark:bg-[#171420] text-foreground placeholder:text-muted-foreground/60 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 rounded-xl text-sm font-semibold text-primary-foreground bg-primary hover:opacity-90 transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-[0.99]"
-              >
-                <Send className="w-4 h-4" />
-                <span>{t.sendMessageBtn}</span>
-              </button>
-            </form>
-          )}
         </div>
 
       </div>
