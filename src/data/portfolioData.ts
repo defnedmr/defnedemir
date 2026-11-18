@@ -98,11 +98,7 @@ export const portfolioDataEn: PortfolioData = {
         "High performance and accessibility scores with responsive typography",
         "Deployed globally with automated CI/CD using Cloudflare Pages"
       ],
-      photos: [
-        { url: "", caption: "Overview of the Projects view and light mode theme" },
-        { url: "", caption: "Dark mode contact section with responsive 2x2 grid" },
-        { url: "", caption: "Mobile responsive navigation drawer and typography" }
-      ]
+      photos: []
     },
     {
       id: "ai-chatbot",
@@ -120,9 +116,7 @@ export const portfolioDataEn: PortfolioData = {
         "Published and directly playable in-browser on itch.io"
       ],
       photos: [
-        { url: "", caption: "Suspect interrogation interface with live AI dialogue response" },
-        { url: "", caption: "Evidence notebook and contradiction analysis panel" },
-        { url: "", caption: "Main menu, tutorial, and difficulty selection" }
+        { url: "/knock.webp", caption: "Knock interrogation screen" }
       ]
     },
     {
@@ -140,11 +134,7 @@ export const portfolioDataEn: PortfolioData = {
         "Structured course tagging, full-text note search, and community rating system",
         "Secure document upload pipeline with optimized cloud file storage"
       ],
-      photos: [
-        { url: "", caption: "Mobile-first feed of trending course notes and study materials" },
-        { url: "", caption: "Interactive note viewer with categorization and ratings" },
-        { url: "", caption: "Upload flow and course selection dashboard" }
-      ]
+      photos: []
     },
     {
       id: "ays-frontend",
@@ -160,10 +150,7 @@ export const portfolioDataEn: PortfolioData = {
         "Collaborated in an agile cross-functional volunteer team using Jira and Confluence",
         "Employed TypeScript and modern UI practices ensuring reliable performance during emergency traffic"
       ],
-      photos: [
-        { url: "", caption: "Institutional disaster response dashboard and status tracking" },
-        { url: "", caption: "Relief coordination workflows and institutional data table" }
-      ]
+      photos: []
     }
   ],
 
@@ -256,11 +243,7 @@ export const portfolioDataTr: PortfolioData = {
         "Duyarlı tipografi ve sıfır yerleşim kayması ile yüksek performans ve erişilebilirlik",
         "Cloudflare Pages üzerinde otomatik CI/CD dağıtımıyla global olarak yayında"
       ],
-      photos: [
-        { url: "", caption: "Projeler görünümü ve açık tema tasarımı" },
-        { url: "", caption: "2x2 duyarlı ızgarada koyu tema iletişim alanı" },
-        { url: "", caption: "Mobil uyumlu menü çekmecesi ve tipografi" }
-      ]
+      photos: []
     },
     {
       id: "ai-chatbot",
@@ -278,9 +261,7 @@ export const portfolioDataTr: PortfolioData = {
         "itch.io üzerinde doğrudan tarayıcıdan oynanabilir ve yayında"
       ],
       photos: [
-        { url: "", caption: "Canlı yapay zekâ diyalog yanıtlı şüpheli sorgu ekranı" },
-        { url: "", caption: "Kanıt defteri ve çelişki inceleme paneli" },
-        { url: "", caption: "Ana menü, eğitim ve zorluk seviyesi seçimi" }
+        { url: "/knock.webp", caption: "Knock interrogation screen" }
       ]
     },
     {
@@ -298,11 +279,7 @@ export const portfolioDataTr: PortfolioData = {
         "Kategorize edilmiş ders dizini, tam metin not arama ve topluluk puanlama mekanizması",
         "Optimize edilmiş bulut dosya depolamasıyla güvenli doküman yükleme süreci"
       ],
-      photos: [
-        { url: "", caption: "Mobil öncelikli ders akışı ve popüler çalışma notları" },
-        { url: "", caption: "Okuyucu kontrolleri ve puanlama içeren etkileşimli not görüntüleyici" },
-        { url: "", caption: "Ders etiketleme ve meta veri girişiyle not yükleme akışı" }
-      ]
+      photos: []
     },
     {
       id: "ays-frontend",
@@ -318,10 +295,7 @@ export const portfolioDataTr: PortfolioData = {
         "Jira ve Confluence araçlarıyla sprint takibi yapan çevik gönüllü ekiple iş birliği sağlandı",
         "Kriz anlarındaki yoğun trafikte güvenilirlik sağlayan TypeScript ve modern UI standartları uygulandı"
       ],
-      photos: [
-        { url: "", caption: "Kurumsal afet yönetim ve durum takip paneli" },
-        { url: "", caption: "Yardım koordinasyon modülü ve lojistik veri tablosu" }
-      ]
+      photos: []
     }
   ],
 
