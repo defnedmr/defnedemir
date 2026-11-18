@@ -217,7 +217,9 @@ export const BackgroundCanvas3D: React.FC = () => {
       liveMeshes.forEach((item) => {
         const dist = camera.position.z - item.conf.z;
         const halfWidth = dist * Math.tan(vFov / 2) * camera.aspect;
-        item.line.position.x = item.conf.xRatio * halfWidth;
+        const r = item.conf.xRatio;
+        // phones: push shapes to the screen edges so text stays readable
+        item.line.position.x = (camera.aspect < 0.8 ? Math.sign(r) * Math.max(Math.abs(r) * 1.3, 1) : r) * halfWidth;
       });
     };
 
