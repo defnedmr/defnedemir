@@ -79,7 +79,7 @@ export const portfolioDataEn: PortfolioData = {
   skills: [
     { name: "Languages", list: ["C/C++", "Python", "TypeScript", "JavaScript", "SQL", "Java"] },
     { name: "Technologies & Frameworks", list: ["React", "Node.js", "Express", "Tailwind CSS", "TensorFlow", "Git", "Linux", "Docker"] },
-    { name: "Hardware & Systems", list: ["Computer Architecture", "Digital Logic", "Microcontrollers", "Operating Systems"] }
+    { name: "Hardware & Systems", list: ["Computer Architecture", "Network Systems", "Cyber Security", "Operating Systems"] }
   ],
 
   projects: [
@@ -224,7 +224,7 @@ export const portfolioDataTr: PortfolioData = {
   skills: [
     { name: "Programlama Dilleri", list: ["C/C++", "Python", "TypeScript", "JavaScript", "SQL", "Java"] },
     { name: "Teknolojiler & Kütüphaneler", list: ["React", "Node.js", "Express", "Tailwind CSS", "TensorFlow", "Git", "Linux", "Docker"] },
-    { name: "Donanım & Sistemler", list: ["Bilgisayar Mimarisi", "Sayısal Mantık", "Mikrodenetleyiciler", "İşletim Sistemleri"] }
+    { name: "Donanım & Sistemler", list: ["Bilgisayar Mimarisi", "Ağ yapısı", "Siber Güvenlik", "İşletim Sistemleri"] }
   ],
 
   projects: [
