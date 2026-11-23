@@ -88,6 +88,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 src={currentPhoto.url}
                 alt={currentPhoto.caption || project.title}
                 className="absolute inset-0 w-full h-full object-cover"
+                style={{ objectPosition: currentPhoto.position }}
               />
               {hasMultiplePhotos && (
                 <>

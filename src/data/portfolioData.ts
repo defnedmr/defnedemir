@@ -1,6 +1,7 @@
 export interface ProjectPhoto {
   url: string;
   caption: string;
+  position?: string; // CSS object-position, default center
 }
 
 export interface Project {
@@ -83,6 +84,24 @@ export const portfolioDataEn: PortfolioData = {
   ],
 
   projects: [
+      {
+      id: "ctf-writeups",
+      title: "CTF Writeups",
+      shortDesc: "A blog of my CTF writeups, focused on web, crypto, and network security.",
+      fullDesc: "A personal blog where I document the Capture The Flag challenges I solve, with step-by-step writeups and notes. I focus on web, cryptography, and network security, and I'm building this archive to deepen my skills and support my career in security.",
+      tags: ["CTF", "Web Security", "Cryptography", "Network Security"],
+      githubUrl: "https://github.com/defnedmr/ctfblog",
+      liveUrl: "https://defnedmr.github.io/ctfblog/",
+      linkText: "Read the writeups →",
+      highlights: [
+        "Detailed writeups of solved challenges across web, crypto, OSINT, and forensics",
+        "Tag-based filtering and search to browse writeups by topic",
+        "Built to sharpen my web, crypto, and network security skills for a career in cybersecurity"
+      ],
+      photos: [
+        { url: "/ctf.png", caption: "CTF Writeups: You Shall Pass" }
+      ]
+    },
     {
       id: "portfolio-site",
       title: "Portfolio Website",
@@ -228,6 +247,24 @@ export const portfolioDataTr: PortfolioData = {
   ],
 
   projects: [
+      {
+      id: "ctf-writeups",
+      title: "CTF Çözüm Yazıları",
+      shortDesc: "Web, kriptografi ve ağ güvenliği odaklı CTF çözüm yazılarımın bulunduğu blog.",
+      fullDesc: "Çözdüğüm Capture The Flag sorularını adım adım anlattığım kişisel bir blog. Web, kriptografi ve ağ güvenliğine odaklanıyorum; bu arşivi becerilerimi derinleştirmek ve güvenlik alanındaki kariyerime katkı sağlamak için oluşturuyorum.",
+      tags: ["CTF", "Web Güvenliği", "Kriptografi", "Ağ Güvenliği"],
+      githubUrl: "https://github.com/defnedmr/ctfblog",
+      liveUrl: "https://defnedmr.github.io/ctfblog/",
+      linkText: "Yazıları oku →",
+      highlights: [
+        "Web, kripto, OSINT ve adli bilişim alanlarında çözülen soruların detaylı anlatımları",
+        "Konuya göre gezinmek için etiket filtreleme ve arama",
+        "Siber güvenlik kariyerim için web, kripto ve ağ güvenliği becerilerimi geliştirmek amacıyla hazırlandı"
+      ],
+      photos: [
+        { url: "/ctf.png", caption: "CTF Writeups: You Shall Pass" }
+      ]
+    },
     {
       id: "portfolio-site",
       title: "Portfolyo Web Sitesi",
